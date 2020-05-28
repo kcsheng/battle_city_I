@@ -3,9 +3,10 @@ class GameWindow < Gosu::Window
         super(800, 710, false)
         self.caption = "Battle City I"
         @player = Player.new(self)
-        @enemy_tank = EnemyTank.new
-    end
+        @enemy_team = EnemyTeam.new
 
+    end
+    
     def button_down(id)
         if id == Gosu::KB_ESCAPE
             close
@@ -14,11 +15,11 @@ class GameWindow < Gosu::Window
     
     def update
         @player.update
-        @enemy_tank.update
+        @enemy_team.update
     end
 
     def draw
         @player.draw
-        @enemy_tank.draw
+        @enemy_team.draw
     end    
 end

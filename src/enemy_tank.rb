@@ -12,7 +12,7 @@ class EnemyTank < Tank
     end
 
     def move  
-        unless @moving
+        unless @moving            
             @time_stamp = Time.now 
             if @first_move # move away from the generation site.       
                 @duration = 1.5

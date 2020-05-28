@@ -18,8 +18,5 @@ class Player < Tank
         when @window.button_down?(Gosu::Button::KbUp); move_north
         when @window.button_down?(Gosu::Button::KbDown); move_south
         end
-    end
-    
-
-    
+    end    
 end
