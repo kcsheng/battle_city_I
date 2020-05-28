@@ -7,36 +7,31 @@ class EnemyTank < Tank
         @x = [20, 372, 724].sample
         @y = 10
         @head_west, @head_east, @head_north, @head_south = false, false, false, true
-        @time_stamp = Time.now
         @moving = false
-        @instruct_given = true
+        @first_move = true
     end
 
-    def move           
-        if Time.now - @time_stamp <= 1 
-            move_south
-            @moving = true
-            if Time.now - @time_stamp == 1 # Turn off the entire if evaluation.
-                @moving = false
-                @instruct_given = false
-            end
-        end
-        unless @moving_instruct        
-            duration = rand * 1.7
-            option = [1, 2, 3].sample
-            time_start = Time.now 
-            @moving_instruct = true     
-        end
-            
-        if @moving == false 
-        if Time.now - time_start <= duration
-            case option
+    def move  
+        unless @moving
+            @time_stamp = Time.now 
+            if @first_move # move away from the generation site.       
+                @duration = 1.5
+                @option = 3
+                @first_move = false
+            else                   
+                @duration = rand * 1.7
+                @option = [1, 2, 3].sample 
+            end             
+        end     
+        if Time.now - @time_stamp <= @duration           
+            case @option
             when 1; move_west
             when 2; move_east
             when 3; move_south
             end
-        else            
-            @instruct_given = false
+            @moving = true
+        else
+            @moving = false
         end
     end
 
