@@ -12,7 +12,7 @@ class EnemyTeam
     end
 
     def generate_tank_timer(sec)
-        @game_duration =  (Time.now - @game_start).to_i
+        @game_duration = (Time.now - @game_start).to_i
         @r = @game_duration % sec
         if @r == 0 && @generating_tank == false
             generate_tank

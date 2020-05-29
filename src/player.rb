@@ -19,7 +19,7 @@ class Player < Tank
         when @window.button_down?(Gosu::Button::KbRight); move_east
         when @window.button_down?(Gosu::Button::KbUp); move_north
         when @window.button_down?(Gosu::Button::KbDown); move_south
-        when @window.button_down?(Gosu::Button::KbSpace); @cannon.launch
+        when @window.button_down?(Gosu::Button::KbSpace); @cannon.fire
         end
         @cannon.update
     end     

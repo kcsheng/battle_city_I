@@ -1,4 +1,5 @@
 class Cannon
+    attr_reader(:launched, :launch)
     def initialize(driver)
         @driver = driver
         @cannon_ball = Gosu::Image.new("../media/cannonball.png")
@@ -9,7 +10,7 @@ class Cannon
         @west, @east, @north, @south = [false] * 4
     end
 
-    def launch
+    def fire
         unless @launched
             @launch = true
             case true

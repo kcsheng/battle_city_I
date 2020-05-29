@@ -1,5 +1,5 @@
 class EnemyTank < Tank 
-    attr_reader(:x, :y, :tank_west, :tank_east, :tank_north, :tank_south)
+    attr_reader(:x, :y, :head_west, :head_east, :head_north, :head_south)
     def initialize
         @tank_west = Gosu::Image.new("../media/red_tank_west.png")
         @tank_east = Gosu::Image.new("../media/red_tank_east.png")
@@ -10,6 +10,10 @@ class EnemyTank < Tank
         @head_west, @head_east, @head_north, @head_south = false, false, false, true
         @moving = false
         @first_move = true
+        @cannon = Cannon.new(self)
+        @game_start = Time.now
+        @cannon_active = false
+        @cannon_fired = false
     end
 
     def move  
@@ -36,8 +40,29 @@ class EnemyTank < Tank
         end
     end
 
+    def cannon_timer(range)
+        unless @cannon_active 
+            @get_time = Time.now
+            @game_duration = (@get_time - @game_start).to_i
+            @num = rand(range)
+            @r = @game_duration % @num # fire once within the num seconds
+        end
+        if @r == 0 && @cannon_fired == false
+            @cannon_active = true
+            @cannon.fire
+            @cannon_fired = true
+        end
+        if Time.now - @get_time > @num
+            @cannon_active = false
+            @cannon_fired = false
+        end
+    end
+
+
     def update
         move
+        @cannon.update
+        cannon_timer(3..6)
     end
 
     def draw
@@ -47,6 +72,7 @@ class EnemyTank < Tank
         when @head_north; @tank_north.draw(@x, @y, 1)
         when @head_south; @tank_south.draw(@x, @y, 1)
         end
+        @cannon.draw
     end
 end
 
