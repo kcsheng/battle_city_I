@@ -1,4 +1,5 @@
 class EnemyTank < Tank 
+    attr_reader(:x, :y, :tank_west, :tank_east, :tank_north, :tank_south)
     def initialize
         @tank_west = Gosu::Image.new("../media/red_tank_west.png")
         @tank_east = Gosu::Image.new("../media/red_tank_east.png")
@@ -37,6 +38,15 @@ class EnemyTank < Tank
 
     def update
         move
+    end
+
+    def draw
+        case true
+        when @head_west; @tank_west.draw(@x, @y, 1)
+        when @head_east; @tank_east.draw(@x, @y, 1)
+        when @head_north; @tank_north.draw(@x, @y, 1)
+        when @head_south; @tank_south.draw(@x, @y, 1)
+        end
     end
 end
 

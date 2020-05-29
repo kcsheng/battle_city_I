@@ -4,9 +4,8 @@ class GameWindow < Gosu::Window
         self.caption = "Battle City I"
         @player = Player.new(self)
         @enemy_team = EnemyTeam.new
-
     end
-    
+
     def button_down(id)
         if id == Gosu::KB_ESCAPE
             close

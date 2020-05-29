@@ -22,13 +22,4 @@ class Tank
         @y += 1 
         @y -= 5 if @y + 56 > 710      
     end 
-
-    def draw
-        case true
-        when @head_west; @tank_west.draw(@x, @y, 1)
-        when @head_east; @tank_east.draw(@x, @y, 1)
-        when @head_north; @tank_north.draw(@x, @y, 1)
-        when @head_south; @tank_south.draw(@x, @y, 1)
-        end
-    end
 end

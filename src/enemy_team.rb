@@ -1,4 +1,4 @@
-class EnemyTeam
+class EnemyTeam    
     def initialize
         @game_start = Time.now
         @generating_tank = false
@@ -9,7 +9,6 @@ class EnemyTeam
     def generate_tank
         @tank = EnemyTank.new
         @enemy_team << @tank
-        p @count += 1
     end
 
     def generate_tank_timer(sec)
