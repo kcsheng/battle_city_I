@@ -1,13 +1,16 @@
 class Cannon
-    attr_reader(:launched, :launch)
+    attr_reader(:launched, :launch, :x, :y)
+    attr_accessor(:neutralised)
     def initialize(driver)
         @driver = driver
-        @cannon_ball = Gosu::Image.new("../media/cannonball.png")
+        @cannon_ball = Gosu::Image.new("../media/blueball.png") if @driver.class == Player 
+        @cannon_ball = Gosu::Image.new("../media/orangeball.png") if @driver.class == EnemyTank
         @x = @driver.x + 20.5
         @y = @driver.y + 20.5
         @launch = false
         @launched = false
         @west, @east, @north, @south = [false] * 4
+        @neutralised = false
     end
 
     def fire
@@ -31,8 +34,9 @@ class Cannon
             when @north; @y -= 4
             when @south; @y += 4
             end
-            if @y < 0 || @x < 0 || @y > 710 || @x > 800
+            if @y < 0 || @x < 0 || @y > 710 || @x > 800 || @neutralised
                 @launch = false  # turn off the cannon launch path
+                @neutralised = false
             end
         else
             @launched = false # reload the cannon
@@ -42,6 +46,8 @@ class Cannon
     end
 
     def draw
-        @cannon_ball.draw(@x, @y, 0)
+        unless @neutralised
+            @cannon_ball.draw(@x, @y, 1)
+        end
     end
 end

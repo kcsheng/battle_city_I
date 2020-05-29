@@ -11,6 +11,17 @@ class Player < Tank
         @y = 644 
         @head_west, @head_east, @head_north, @head_south = false, false, true, false
         @cannon = Cannon.new(self)
+        @enemyteam = EnemyTeam.new
+        @enemytanks = @enemyteam.enemy_team
+    end
+
+    def bomb(enemytanks)
+        enemytanks.each do |tank|
+            if Gosu.distance(@cannon.x + 7.5, @cannon.y + 7.5, tank.x + 28, tank.y + 28) < 28
+                tank.alive = false
+                @cannon.neutralised = true
+            end
+        end
     end
 
     def update
@@ -22,6 +33,8 @@ class Player < Tank
         when @window.button_down?(Gosu::Button::KbSpace); @cannon.fire
         end
         @cannon.update
+        @enemyteam.update
+        bomb(@enemytanks)
     end     
     
     def draw
@@ -32,5 +45,6 @@ class Player < Tank
         when @head_south; @tank_south.draw(@x, @y, 1)
         end
         @cannon.draw
+        @enemyteam.draw
     end
 end

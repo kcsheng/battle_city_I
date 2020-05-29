@@ -1,5 +1,6 @@
 class EnemyTank < Tank 
     attr_reader(:x, :y, :head_west, :head_east, :head_north, :head_south)
+    attr_accessor(:alive)
     def initialize
         @tank_west = Gosu::Image.new("../media/red_tank_west.png")
         @tank_east = Gosu::Image.new("../media/red_tank_east.png")
@@ -14,6 +15,7 @@ class EnemyTank < Tank
         @game_start = Time.now
         @cannon_active = false
         @cannon_fired = false
+        @alive = true
     end
 
     def move  
@@ -45,7 +47,7 @@ class EnemyTank < Tank
             @get_time = Time.now
             @game_duration = (@get_time - @game_start).to_i
             @num = rand(range)
-            @r = @game_duration % @num # fire once within the num seconds
+            @r = @game_duration % @num # fire once within num seconds
         end
         if @r == 0 && @cannon_fired == false
             @cannon_active = true
@@ -58,11 +60,10 @@ class EnemyTank < Tank
         end
     end
 
-
     def update
         move
         @cannon.update
-        cannon_timer(3..6)
+        cannon_timer(2..6)
     end
 
     def draw

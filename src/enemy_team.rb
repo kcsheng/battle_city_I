@@ -1,4 +1,5 @@
-class EnemyTeam    
+class EnemyTeam 
+    attr_reader(:enemy_team)   
     def initialize
         @game_start = Time.now
         @generating_tank = false
@@ -23,8 +24,13 @@ class EnemyTeam
         end
     end
 
+    def select_alive 
+        @enemy_team.select! { |tank| tank.alive }
+    end
+
     def update
         generate_tank_timer(3)
+        select_alive
         @enemy_team.each do |tank|
             tank.update
         end
