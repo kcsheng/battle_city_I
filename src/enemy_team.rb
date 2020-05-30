@@ -32,11 +32,7 @@ class EnemyTeam
     def select_alive
         @enemy_team.select! { |tank| tank.alive }
     end
-
-    def collide
-
-    end
-
+    
     def update
         generate_tank_timer(5)
         select_alive # only show live tanks

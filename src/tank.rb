@@ -22,8 +22,4 @@ class Tank
         @y += 1.5
         @y -= 5 if @y + 56 > 710      
     end 
-
-    def detect_collsion(object)
-        
-    end
 end
