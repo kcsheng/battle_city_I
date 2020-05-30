@@ -33,18 +33,22 @@ class EnemyTeam
         @enemy_team.select! { |tank| tank.alive }
     end
 
+    def collide
+
+    end
+
     def update
         generate_tank_timer(5)
-        select_alive
+        select_alive # only show live tanks
         @enemy_team.each { |tank| tank.update }
     end
 
     def draw        
         @enemy_team.each { |tank| tank.draw }
-        if @exploded        
-            img = @explosion[Gosu::milliseconds / 50 % @explosion.size]
+        if @exploded   # Show the dead tank explosion    
+            img = @explosion[Gosu::milliseconds / 40 % @explosion.size]
             img.draw(@loc_x, @loc_y, 2)
-            if Time.now - @time_hit > 0.55
+            if Time.now - @time_hit > 0.5
                 @exploded = false
             end
         end

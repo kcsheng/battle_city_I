@@ -26,8 +26,8 @@ class EnemyTank < Tank
                 @option = 3
                 @first_move = false
             else                   
-                @duration = rand * 1.7
-                @option = [1, 2, 3].sample 
+                @duration = rand * 1.5
+                @option = [1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 4].sample 
             end             
         end     
         if Time.now - @time_stamp <= @duration           
@@ -35,6 +35,7 @@ class EnemyTank < Tank
             when 1; move_west
             when 2; move_east
             when 3; move_south
+            when 4; move_north
             end
             @moving = true
         else
