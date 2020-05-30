@@ -1,15 +1,20 @@
 class EnemyTeam 
-    attr_reader(:enemy_team)   
+    attr_reader(:enemy_team) 
+    attr_accessor(:time_hit, :loc_x, :loc_y, :exploded)  
     def initialize
         @game_start = Time.now
         @generating_tank = false
         @enemy_team = []
-        @count = 0
+        @count = 0 
+        @explosion = Gosu::Image.load_tiles("../media/tank_explode.png", 72, 72) 
+        @exploded = false
+        @time_hit = nil             
     end
 
     def generate_tank
         @tank = EnemyTank.new
         @enemy_team << @tank
+        p @count += 1
     end
 
     def generate_tank_timer(sec)
@@ -24,21 +29,24 @@ class EnemyTeam
         end
     end
 
-    def select_alive 
+    def select_alive
         @enemy_team.select! { |tank| tank.alive }
     end
 
     def update
-        generate_tank_timer(3)
+        generate_tank_timer(5)
         select_alive
-        @enemy_team.each do |tank|
-            tank.update
-        end
+        @enemy_team.each { |tank| tank.update }
     end
 
-    def draw
-        @enemy_team.each do |tank|
-            tank.draw
+    def draw        
+        @enemy_team.each { |tank| tank.draw }
+        if @exploded        
+            img = @explosion[Gosu::milliseconds / 50 % @explosion.size]
+            img.draw(@loc_x, @loc_y, 2)
+            if Time.now - @time_hit > 0.55
+                @exploded = false
+            end
         end
     end
 end

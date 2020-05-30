@@ -1,5 +1,5 @@
 class Player < Tank 
-    attr_reader(:x, :y, :head_west, :head_east, :head_north, :head_south)
+    attr_reader(:x, :y, :head_west, :head_east, :head_north, :head_south, :time_hit)
     def initialize(window)
         @window = window
         # tank size (consistently square 56px)
@@ -13,12 +13,29 @@ class Player < Tank
         @cannon = Cannon.new(self)
         @enemyteam = EnemyTeam.new
         @enemytanks = @enemyteam.enemy_team
+        @explosion = Gosu::Image.load_tiles("../media/tank_explode.png", 72, 72)
+        @alive = true
     end
 
-    def bomb(enemytanks)
+    def bomb(enemytanks)        
         enemytanks.each do |tank|
             if Gosu.distance(@cannon.x + 7.5, @cannon.y + 7.5, tank.x + 28, tank.y + 28) < 28
+                @enemyteam.time_hit = Time.now # memorising the struck time
+                @enemyteam.exploded = true # change the explosion status
+                @enemyteam.loc_x = tank.x # memorising the struck location
+                @enemyteam.loc_y = tank.y
                 tank.alive = false
+                @cannon.neutralised = true
+                tank.cannon.neutralised = true
+            end
+        end
+    end
+
+    def bomb_by(enemytanks)
+        enemytanks.each do |tank|
+            if Gosu.distance(tank.cannon.x + 7.5, tank.cannon.y + 7.5, @x + 28, @y + 28) < 28
+                @alive = false
+                @window.game_running = false
                 @cannon.neutralised = true
             end
         end
@@ -35,14 +52,20 @@ class Player < Tank
         @cannon.update
         @enemyteam.update
         bomb(@enemytanks)
+        bomb_by(@enemytanks)
     end     
     
     def draw
-        case true
-        when @head_west; @tank_west.draw(@x, @y, 1)
-        when @head_east; @tank_east.draw(@x, @y, 1)
-        when @head_north; @tank_north.draw(@x, @y, 1)
-        when @head_south; @tank_south.draw(@x, @y, 1)
+        if @alive
+            case true
+            when @head_west; @tank_west.draw(@x, @y, 2)
+            when @head_east; @tank_east.draw(@x, @y, 2)
+            when @head_north; @tank_north.draw(@x, @y, 2)
+            when @head_south; @tank_south.draw(@x, @y, 2)
+            end
+        else
+            img = @explosion[Gosu::milliseconds / 100 % @explosion.size]
+            img.draw(@x - 4, @y - 8, 2)        
         end
         @cannon.draw
         @enemyteam.draw

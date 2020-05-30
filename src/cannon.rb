@@ -47,7 +47,7 @@ class Cannon
 
     def draw
         unless @neutralised
-            @cannon_ball.draw(@x, @y, 1)
+            @cannon_ball.draw(@x, @y, 2)
         end
     end
 end
