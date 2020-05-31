@@ -65,7 +65,7 @@ class EnemyTank < Tank
     end
 
     def sense_teammate
-        if @teammates.length >= 2
+        if @teammates.length >= 2 # need at least 2 teammates 
             nearest_tank = nearest_obj(@teammates)
             sense_collide(nearest_tank)
         end
@@ -74,7 +74,7 @@ class EnemyTank < Tank
     def update
         move
         @cannon.update
-        # cannon_timer(2..6)
+        cannon_timer(2..6)
         sense_collide(@player)
         sense_teammate
     end

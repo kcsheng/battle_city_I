@@ -50,24 +50,26 @@ class Tank
     end
 
     def sense_collide(obj)
-        ox = obj.x
-        oy = obj.y
-        # ow = oh = 40 if obj.class == Brick # obj width and height
-        ow = oh = 56 if obj.class.superclass == Tank
-        if oy + oh > @y && oy < @y + 56 && ox < @x && ox + ow > @x
-            @collide_obj_right = true 
-        end
+        unless obj.nil?
+            ox = obj.x
+            oy = obj.y
+            # ow = oh = 40 if obj.class == Brick # obj width and height
+            ow = oh = 56 if obj.class.superclass == Tank
+            if oy + oh > @y && oy < @y + 56 && ox < @x && ox + ow > @x
+                @collide_obj_right = true 
+            end
 
-        if oy + oh > @y && oy < @y + 56 && ox < @x + 56 && ox + ow > @x + 56
-            @collide_obj_left = true
-        end
+            if oy + oh > @y && oy < @y + 56 && ox < @x + 56 && ox + ow > @x + 56
+                @collide_obj_left = true
+            end
 
-        if ox + ow > @x && ox < @x + 56 && oy < @y && oy + oh > @y
-            @collide_obj_bottom = true
-        end
+            if ox + ow > @x && ox < @x + 56 && oy < @y && oy + oh > @y
+                @collide_obj_bottom = true
+            end
 
-        if ox + ow > @x && ox < @x + 56 && oy < @y + 56 && oy + oh > @y + 56
-            @collide_obj_top = true
-        end 
+            if ox + ow > @x && ox < @x + 56 && oy < @y + 56 && oy + oh > @y + 56
+                @collide_obj_top = true
+            end 
+        end
     end
 end
