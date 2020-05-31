@@ -9,10 +9,11 @@ class Player < Tank
         @tank_south = Gosu::Image.new("../media/blue_tank_south.png")
         @x = 260
         @y = 644 
-        @head_west, @head_east, @head_north, @head_south = false, false, true, false
-        @wall = Wall.new(self)
-        @bricks = @wall.bricks
+        @head_west, @head_east, @head_north, @head_south = false, false, true, false           
         @cannon = Cannon.new(self)
+        @wall = Wall.new
+        @bricks = @wall.bricks
+        @wall_units = @wall.wall_units
         @enemyteam = EnemyTeam.new(self)
         @enemytanks = @enemyteam.enemy_team
         @explosion = Gosu::Image.load_tiles("../media/tank_explode.png", 72, 72)
@@ -54,7 +55,25 @@ class Player < Tank
         unless @bricks.empty?
             nearest_brick = nearest_obj(@bricks)
         end
-            sense_collide(nearest_brick)
+        sense_collide(nearest_brick)
+    end
+
+    def player_bomb_wall
+        @wall_units.each do |unit| 
+            if Gosu.distance(@cannon.x + 7.5, @cannon.y + 7.5, unit[1] + 20, unit[2] + 20) < 23
+                unit[0].exist = false
+            end
+        end
+    end
+
+    def enemy_bomb_wall
+        @wall_units.each do |unit|
+            @enemytanks.each do |tank|
+                if Gosu.distance(tank.cannon.x + 7.5, tank.cannon.y + 7.5, unit[1] + 20, unit[2] + 20) < 23
+                    unit[0].exist = false
+                end
+            end
+        end
     end
 
     def update
@@ -71,6 +90,9 @@ class Player < Tank
         bomb_by(@enemytanks)
         sense_enemy
         sense_brick
+        @wall.update
+        player_bomb_wall
+        enemy_bomb_wall
     end     
     
     def draw

@@ -9,7 +9,7 @@ class EnemyTeam
         @count = 0 
         @explosion = Gosu::Image.load_tiles("../media/tank_explode.png", 72, 72) 
         @exploded = false
-        @time_hit = nil             
+        @time_hit = nil      
     end
 
     def generate_tank

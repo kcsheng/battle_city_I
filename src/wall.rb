@@ -1,6 +1,6 @@
 class Wall
     attr_reader(:wall_units, :bricks)
-    def initialize(player)
+    def initialize
         @bricks = 64.times.map { Brick.new }
         @all_brick_x = (100..300).step(40).to_a + (460..660).step(40).to_a + (280..480).step(40).to_a + 
         (0..280).step(40).to_a + (480..760).step(40).to_a + (240..520).step(40).to_a +
@@ -10,9 +10,11 @@ class Wall
         [630] * 2 + [670] * 2
         @wall_units = []
         (0..63).each { |n| @wall_units.push([@bricks[n]] << @all_brick_x[n] << @all_brick_y[n]) } # pack each brick profile into wall 
-        (0..63).each { |n| @wall_units[n][0].x = @wall_units.assoc(@wall_units[n][0])[1] } # all brick instance :x 
-        (0..63).each { |n| @wall_units[n][0].y = @wall_units.assoc(@wall_units[n][0])[2] } # all brick instance :y
-    end
+        (0..63).each { |n| @wall_units[n][0].x = @wall_units.assoc(@wall_units[n][0])[1] } # write all brick instance :x 
+        (0..63).each { |n| @wall_units[n][0].y = @wall_units.assoc(@wall_units[n][0])[2] } # write all brick instance :y
+        @struck = false
+        @time_hit = nil
+    end    
 
     def check_exist
         @bricks.select! { |brick| brick.exist }

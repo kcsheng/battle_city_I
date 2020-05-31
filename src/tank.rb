@@ -5,7 +5,7 @@ class Tank
         @x += 5 if @x < 0
         if @collide_obj_right
             @x += 5
-            @collide_obj_right = false
+            @collide_obj_right, @collide_obj_left, @collide_obj_bottom, @collide_obj_top = [false] * 4
         end
     end
 
@@ -15,7 +15,7 @@ class Tank
         @x -= 5 if @x + 56 > 800         
         if @collide_obj_left
             @x -= 5
-            @collide_obj_left = false
+            @collide_obj_right, @collide_obj_left, @collide_obj_bottom, @collide_obj_top = [false] * 4
         end
     end
     
@@ -25,7 +25,7 @@ class Tank
         @y += 5 if @y < 0 
         if @collide_obj_bottom
             @y += 5
-            @collide_obj_bottom = false
+            @collide_obj_right, @collide_obj_left, @collide_obj_bottom, @collide_obj_top = [false] * 4
         end
     end
 
@@ -35,7 +35,7 @@ class Tank
         @y -= 5 if @y + 56 > 710 
         if @collide_obj_top
             @y -= 5
-            @collide_obj_top = false
+            @collide_obj_right, @collide_obj_left, @collide_obj_bottom, @collide_obj_top = [false] * 4
         end
     end 
 

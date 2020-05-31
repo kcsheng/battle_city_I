@@ -75,7 +75,7 @@ class EnemyTank < Tank
         unless @player.bricks.empty?
             nearest_brick = nearest_obj(@player.bricks)
         end
-            sense_collide(nearest_brick)
+        sense_collide(nearest_brick)
     end
 
     def update

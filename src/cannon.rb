@@ -1,5 +1,5 @@
 class Cannon
-    attr_reader(:launched, :launch, :x, :y)
+    attr_reader(:launched, :launch, :x, :y, :wall)
     attr_accessor(:neutralised)
     def initialize(driver)
         @driver = driver
