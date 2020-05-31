@@ -41,6 +41,13 @@ class Player < Tank
         end
     end
 
+    def sense_enemy
+        unless @enemytanks.empty?
+            nearest_tank = nearest_obj(@enemytanks)
+        end
+        sense_collide(nearest_tank)
+    end
+
     def update
         case true # tank unable to move diagonally.
         when @window.button_down?(Gosu::Button::KbLeft); move_west
@@ -53,6 +60,7 @@ class Player < Tank
         @enemyteam.update
         bomb(@enemytanks)
         bomb_by(@enemytanks)
+        sense_enemy
     end     
     
     def draw
