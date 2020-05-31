@@ -1,5 +1,5 @@
 class Player < Tank 
-    attr_reader(:x, :y, :head_west, :head_east, :head_north, :head_south, :time_hit)
+    attr_reader(:x, :y, :head_west, :head_east, :head_north, :head_south, :time_hit, :bricks)
     def initialize(window)
         @window = window
         # tank size (consistently square 56px)
@@ -10,6 +10,8 @@ class Player < Tank
         @x = 260
         @y = 644 
         @head_west, @head_east, @head_north, @head_south = false, false, true, false
+        @wall = Wall.new(self)
+        @bricks = @wall.bricks
         @cannon = Cannon.new(self)
         @enemyteam = EnemyTeam.new(self)
         @enemytanks = @enemyteam.enemy_team
@@ -45,9 +47,14 @@ class Player < Tank
         unless @enemytanks.empty?
             nearest_tank = nearest_obj(@enemytanks)
         end
-        unless 
             sense_collide(nearest_tank)
+    end
+
+    def sense_brick
+        unless @bricks.empty?
+            nearest_brick = nearest_obj(@bricks)
         end
+            sense_collide(nearest_brick)
     end
 
     def update
@@ -63,6 +70,7 @@ class Player < Tank
         bomb(@enemytanks)
         bomb_by(@enemytanks)
         sense_enemy
+        sense_brick
     end     
     
     def draw
@@ -79,5 +87,6 @@ class Player < Tank
         end
         @cannon.draw
         @enemyteam.draw
+        @wall.draw
     end
 end

@@ -71,12 +71,20 @@ class EnemyTank < Tank
         end
     end
 
+    def sense_brick
+        unless @player.bricks.empty?
+            nearest_brick = nearest_obj(@player.bricks)
+        end
+            sense_collide(nearest_brick)
+    end
+
     def update
         move
         @cannon.update
         cannon_timer(2..6)
         sense_collide(@player)
         sense_teammate
+        sense_brick
     end
 
     def draw           
