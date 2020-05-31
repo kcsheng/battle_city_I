@@ -28,6 +28,7 @@ class Tank
         # centre_loc = 20 if obj.class == Brick # obj width and height
         centre_loc = 28 if objects[0].class.superclass == Tank
         objects.each { |obj| distances << Gosu.distance(obj.x + centre_loc, obj.y + centre_loc, @x + 28, @y + 28) }
+        distances.delete(0) # not including self in team situation
         nearest_obj_index = distances.index(distances.min)
         objects[nearest_obj_index]    
     end

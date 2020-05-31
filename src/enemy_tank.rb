@@ -1,7 +1,7 @@
 class EnemyTank < Tank 
     attr_reader(:x, :y, :head_west, :head_east, :head_north, :head_south, :cannon)
     attr_accessor(:alive)
-    def initialize
+    def initialize(team)
         @tank_west = Gosu::Image.new("../media/red_tank_west.png")
         @tank_east = Gosu::Image.new("../media/red_tank_east.png")
         @tank_north = Gosu::Image.new("../media/red_tank_north.png")
@@ -15,7 +15,10 @@ class EnemyTank < Tank
         @game_start = Time.now
         @cannon_active = false
         @cannon_fired = false
-        @alive = true          
+        @alive = true   
+        @team = team 
+        @teammates = @team.enemy_team
+        @player = @team.player      
     end
 
     def move  
@@ -61,10 +64,19 @@ class EnemyTank < Tank
         end
     end
 
+    def sense_teammate
+        if @teammates.length >= 2
+            nearest_tank = nearest_obj(@teammates)
+            sense_collide(nearest_tank)
+        end
+    end
+
     def update
         move
         @cannon.update
-        cannon_timer(2..6)
+        # cannon_timer(2..6)
+        sense_collide(@player)
+        sense_teammate
     end
 
     def draw           

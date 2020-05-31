@@ -1,7 +1,8 @@
 class EnemyTeam 
-    attr_reader(:enemy_team) 
+    attr_reader(:enemy_team, :player) 
     attr_accessor(:time_hit, :loc_x, :loc_y, :exploded)  
-    def initialize
+    def initialize(player)
+        @player = player
         @game_start = Time.now
         @generating_tank = false
         @enemy_team = []
@@ -12,7 +13,7 @@ class EnemyTeam
     end
 
     def generate_tank
-        @tank = EnemyTank.new
+        @tank = EnemyTank.new(self)
         @enemy_team << @tank
         p @count += 1
     end
@@ -34,7 +35,7 @@ class EnemyTeam
     end
 
     def update
-        generate_tank_timer(10)
+        generate_tank_timer(2)
         select_alive # only show live tanks
         @enemy_team.each { |tank| tank.update }
     end

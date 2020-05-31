@@ -11,7 +11,7 @@ class Player < Tank
         @y = 644 
         @head_west, @head_east, @head_north, @head_south = false, false, true, false
         @cannon = Cannon.new(self)
-        @enemyteam = EnemyTeam.new
+        @enemyteam = EnemyTeam.new(self)
         @enemytanks = @enemyteam.enemy_team
         @explosion = Gosu::Image.load_tiles("../media/tank_explode.png", 72, 72)
         @alive = true
