@@ -44,7 +44,7 @@ class EnemyTeam
         @enemy_team.each { |tank| tank.draw }
         if @exploded   # Show the dead tank explosion    
             img = @explosion[Gosu::milliseconds / 40 % @explosion.size]
-            img.draw(@loc_x, @loc_y, 2)
+            img.draw(@loc_x - 8, @loc_y - 8, 2) # Minus is for adjusting the explosion image
             if Time.now - @time_hit > 0.5
                 @exploded = false
             end

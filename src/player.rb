@@ -61,6 +61,10 @@ class Player < Tank
     def player_bomb_wall
         @wall_units.each do |unit| 
             if Gosu.distance(@cannon.x + 7.5, @cannon.y + 7.5, unit[1] + 20, unit[2] + 20) < 23
+                @wall.brick_exploded = true
+                @wall.time_struck = Time.now
+                @wall.struck_x = unit[1]
+                @wall.struck_y = unit[2]
                 unit[0].exist = false
                 @cannon.neutralised = true
             end
@@ -71,6 +75,10 @@ class Player < Tank
         @wall_units.each do |unit|
             @enemytanks.each do |tank|
                 if Gosu.distance(tank.cannon.x + 7.5, tank.cannon.y + 7.5, unit[1] + 20, unit[2] + 20) < 23
+                    @wall.brick_exploded = true
+                    @wall.time_struck = Time.now
+                    @wall.struck_x = unit[1]
+                    @wall.struck_y = unit[2]
                     unit[0].exist = false
                     tank.cannon.neutralised = true
                 end

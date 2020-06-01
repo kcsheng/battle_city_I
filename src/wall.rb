@@ -1,5 +1,6 @@
 class Wall
     attr_reader(:wall_units, :bricks)
+    attr_accessor(:brick_exploded, :time_struck, :struck_x, :struck_y)
     def initialize
         @bricks = 64.times.map { Brick.new }
         @all_brick_x = (100..300).step(40).to_a + (460..660).step(40).to_a + (280..480).step(40).to_a + 
@@ -14,6 +15,9 @@ class Wall
         (0..63).each { |n| @wall_units[n][0].y = @wall_units.assoc(@wall_units[n][0])[2] } # write all brick instance :y
         @struck = false
         @time_hit = nil
+        @brick_explosion = Gosu::Image.load_tiles("../media/brick_explode.png", 50, 50)
+        @brick_exploded = false
+        @time_struck = nil
     end    
 
     def check_exist
@@ -28,6 +32,13 @@ class Wall
     def draw
         @wall_units.each do |brick|
             brick[0].brick.draw(brick[1], brick[2], 0)
+        end
+        if @brick_exploded   # Show the brick explosion    
+            img = @brick_explosion[Gosu::milliseconds / 30 % @brick_explosion.size]
+            img.draw(@struck_x - 5, @struck_y - 5, 2) # Minus is for adjusting the explosion image
+            if Time.now - @time_struck > 0.5
+                @brick_exploded = false
+            end
         end
     end
 end
