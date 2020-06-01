@@ -62,6 +62,7 @@ class Player < Tank
         @wall_units.each do |unit| 
             if Gosu.distance(@cannon.x + 7.5, @cannon.y + 7.5, unit[1] + 20, unit[2] + 20) < 23
                 unit[0].exist = false
+                @cannon.neutralised = true
             end
         end
     end
@@ -71,6 +72,7 @@ class Player < Tank
             @enemytanks.each do |tank|
                 if Gosu.distance(tank.cannon.x + 7.5, tank.cannon.y + 7.5, unit[1] + 20, unit[2] + 20) < 23
                     unit[0].exist = false
+                    tank.cannon.neutralised = true
                 end
             end
         end
