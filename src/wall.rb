@@ -34,7 +34,7 @@ class Wall
             brick[0].brick.draw(brick[1], brick[2], 0)
         end
         if @brick_exploded   # Show the brick explosion    
-            img = @brick_explosion[Gosu::milliseconds / 30 % @brick_explosion.size]
+            img = @brick_explosion[Gosu::milliseconds / 25 % @brick_explosion.size]
             img.draw(@struck_x - 5, @struck_y - 5, 2) # Minus is for adjusting the explosion image
             if Time.now - @time_struck > 0.5
                 @brick_exploded = false

@@ -18,6 +18,7 @@ class Player < Tank
         @enemytanks = @enemyteam.enemy_team
         @explosion = Gosu::Image.load_tiles("../media/tank_explode.png", 72, 72)
         @alive = true
+        @fort = Fort.new
     end
 
     def bomb(enemytanks)        

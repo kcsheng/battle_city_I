@@ -57,7 +57,7 @@ class Tank
             ow = oh = 56 if obj.class.superclass == Tank
             if oy + oh > @y && oy < @y + 56 && ox < @x && ox + ow > @x
                 @collide_obj_right = true 
-                @x += 1 # remove from intersection instantly to avoid brick stickiness
+                @x += 1 # remove from intersection instantly 
             end
 
             if oy + oh > @y && oy < @y + 56 && ox < @x + 56 && ox + ow > @x + 56

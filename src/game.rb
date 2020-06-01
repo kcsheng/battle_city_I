@@ -7,4 +7,5 @@ require_relative "player"
 require_relative "cannon"
 require_relative "brick"
 require_relative "wall"
+require_relative "fort"
 GameWindow.new.show
