@@ -59,7 +59,7 @@ class Player < Tank
         sense_collide(nearest_brick)
     end
 
-    def player_bomb_wall
+    def bomb_wall
         @wall_units.each do |unit| 
             if Gosu.distance(@cannon.x + 7.5, @cannon.y + 7.5, unit[1] + 20, unit[2] + 20) < 23
                 @wall.brick_exploded = true
@@ -69,11 +69,6 @@ class Player < Tank
                 unit[0].exist = false
                 @cannon.neutralised = true
             end
-        end
-    end
-
-    def enemy_bomb_wall
-        @wall_units.each do |unit|
             @enemytanks.each do |tank|
                 if Gosu.distance(tank.cannon.x + 7.5, tank.cannon.y + 7.5, unit[1] + 20, unit[2] + 20) < 23
                     @wall.brick_exploded = true
@@ -82,6 +77,23 @@ class Player < Tank
                     @wall.struck_y = unit[2]
                     unit[0].exist = false
                     tank.cannon.neutralised = true
+                end
+            end
+        end
+    end
+
+    def bomb_fort
+        if Gosu.distance(@cannon.x + 7.5, @cannon.y + 7.5, @fort.x + 20, @fort.y + 20) < 30
+            @fort.living = false
+            @cannon.neutralised = true
+            @window.game_running = false
+        end
+        @wall_units.each do |unit|
+            @enemytanks.each do |tank|
+                if Gosu.distance(tank.cannon.x + 7.5, tank.cannon.y + 7.5, @fort.x + 20, @fort.y + 20) < 30
+                    @fort.living = false
+                    @cannon.neutralised = true
+                    @window.game_running = false
                 end
             end
         end
@@ -102,8 +114,8 @@ class Player < Tank
         sense_enemy
         sense_brick
         @wall.update
-        player_bomb_wall
-        enemy_bomb_wall
+        bomb_wall
+        bomb_fort
     end     
     
     def draw
@@ -121,5 +133,6 @@ class Player < Tank
         @cannon.draw
         @enemyteam.draw
         @wall.draw
+        @fort.draw
     end
 end
