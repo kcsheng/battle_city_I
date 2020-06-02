@@ -4,6 +4,9 @@ class GameWindow < Gosu::Window
         super(800, 710, false)
         self.caption = "Battle City I"
         @text_display = Gosu::Font.new(self, "FUTURA", 50)
+        @music = Gosu::Song.new("../media/magic_space.mp3")
+        @music.play(true)
+        @music.volume = 0.1
         @player = Player.new(self)
         @game_running = true
     end
@@ -15,7 +18,11 @@ class GameWindow < Gosu::Window
     end    
     
     def update
-        @player.update if @game_running
+        if @game_running
+            @player.update
+        else 
+            @music.pause 
+        end
     end
 
     def draw
