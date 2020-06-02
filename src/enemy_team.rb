@@ -37,7 +37,7 @@ class EnemyTeam
     end
 
     def update
-        generate_tank_timer(2)
+        generate_tank_timer(3)
         select_alive # only show live tanks
         @enemy_team.each { |tank| tank.update }
     end
