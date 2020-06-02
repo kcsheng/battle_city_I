@@ -1,5 +1,5 @@
 class Player < Tank 
-    attr_reader(:x, :y, :head_west, :head_east, :head_north, :head_south, :time_hit, :bricks)
+    attr_reader(:x, :y, :head_west, :head_east, :head_north, :head_south, :time_hit, :bricks, :win)
     def initialize(window)
         @window = window
         # tank size (consistently square 56px)
@@ -19,6 +19,8 @@ class Player < Tank
         @explosion = Gosu::Image.load_tiles("../media/tank_explode.png", 72, 72)
         @alive = true
         @fort = Fort.new
+        @bombed_tank = 0
+        @win = false
     end
 
     def bomb(enemytanks)        
@@ -31,6 +33,7 @@ class Player < Tank
                 tank.alive = false
                 @cannon.neutralised = true
                 tank.cannon.neutralised = true
+                @bombed_tank += 1
             end
         end
     end
@@ -99,6 +102,13 @@ class Player < Tank
         end
     end
 
+    def win_state
+        if @enemytanks.length == 0 && @bombed_tank == 50
+            @win = true
+            @window.game_running = false
+        end
+    end
+
     def update
         case true # tank unable to move diagonally.
         when @window.button_down?(Gosu::Button::KbLeft); move_west
@@ -116,6 +126,7 @@ class Player < Tank
         @wall.update
         bomb_wall
         bomb_fort
+        win_state
     end     
     
     def draw

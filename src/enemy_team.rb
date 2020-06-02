@@ -15,15 +15,17 @@ class EnemyTeam
     def generate_tank
         @tank = EnemyTank.new(self)
         @enemy_team << @tank
-        p @count += 1
+        @count += 1
     end
 
     def generate_tank_timer(sec)
         @game_duration = (Time.now - @game_start).to_i
         @r = @game_duration % sec
         if @r == 0 && @generating_tank == false
-            generate_tank
-            @generating_tank = true
+            if @count <= 49
+                generate_tank
+                @generating_tank = true
+            end            
         end
         if @r != 0
             @generating_tank = false
