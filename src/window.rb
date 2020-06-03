@@ -6,9 +6,9 @@ class GameWindow < Gosu::Window
         @text_display = Gosu::Font.new(self, "FUTURA", 50)
         @theme_music = Gosu::Song.new("../media/magic_space.mp3")
         @theme_music.play(true)
-        @theme_music.volume = 0.1
+        @theme_music.volume = 0.4
         @game_over_music = Gosu::Song.new("../media/game_over.wav")
-        @game_over_music.volume = 0.1
+        @game_over_music.volume = 0.5
         @player = Player.new(self)
         @game_running = true
         @game_over_music_played = false

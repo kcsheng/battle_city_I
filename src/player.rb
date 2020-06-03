@@ -21,6 +21,8 @@ class Player < Tank
         @fort = Fort.new
         @bombed_tank = 0
         @win = false
+        @hit_brick = Gosu::Sample.new("../media/distant_explosion.mp3")
+        @hit_tank = Gosu::Sample.new("../media/tank_explosion.mp3")
     end
 
     def bomb(enemytanks)        
@@ -34,6 +36,7 @@ class Player < Tank
                 @cannon.neutralised = true
                 tank.cannon.neutralised = true
                 @bombed_tank += 1
+                @hit_tank.play
             end
         end
     end
@@ -44,6 +47,7 @@ class Player < Tank
                 @alive = false
                 @window.game_running = false
                 @cannon.neutralised = true
+                @hit_tank.play
             end
         end
     end
@@ -71,6 +75,7 @@ class Player < Tank
                 @wall.struck_y = unit[2]
                 unit[0].exist = false
                 @cannon.neutralised = true
+                @hit_brick.play
             end
             @enemytanks.each do |tank|
                 if Gosu.distance(tank.cannon.x + 7.5, tank.cannon.y + 7.5, unit[1] + 20, unit[2] + 20) < 23
@@ -80,6 +85,7 @@ class Player < Tank
                     @wall.struck_y = unit[2]
                     unit[0].exist = false
                     tank.cannon.neutralised = true
+                    @hit_brick.play
                 end
             end
         end
