@@ -163,6 +163,7 @@ class Player < Tank
             end
         end
         @text_display.draw_text("LIVES: #{@lives}", 10, 670, 3, 0.8, 0.8, Gosu::Color::GREEN)
+        @text_display.draw_text("ENEMY: #{@bombed_tank}", 10, 5, 3, 0.8, 0.8, Gosu::Color::GREEN)
         @cannon.draw
         @enemyteam.draw
         @wall.draw
