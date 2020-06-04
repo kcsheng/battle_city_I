@@ -6,12 +6,14 @@ class GameWindow < Gosu::Window
         @text_display = Gosu::Font.new(self, "FUTURA", 50)
         @theme_music = Gosu::Song.new("../media/magic_space.mp3")
         @theme_music.play(true)
-        @theme_music.volume = 0.4
+        @theme_music.volume = 0.2
         @game_over_music = Gosu::Song.new("../media/game_over.wav")
-        @game_over_music.volume = 0.5
+        @game_over_music.volume = 0.2
         @player = Player.new(self)
         @game_running = true
         @game_over_music_played = false
+        @game_win_music = Gosu::Song.new("../media/game_win.mp3")
+        @game_win_music.volume = 0.2
     end
 
     def button_down(id)
@@ -23,11 +25,15 @@ class GameWindow < Gosu::Window
     def update
         if @game_running
             @player.update
-        else 
+        else
             @theme_music.pause
-            unless @game_over_music_played 
-                @game_over_music.play 
-                @game_over_music_played = true
+            if @player.win
+                @game_win_music.play
+            else            
+                unless @game_over_music_played 
+                    @game_over_music.play 
+                    @game_over_music_played = true
+                end
             end         
         end
     end

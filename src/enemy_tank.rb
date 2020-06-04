@@ -51,7 +51,7 @@ class EnemyTank < Tank
             @get_time = Time.now
             @game_duration = (@get_time - @game_start).to_i
             @num = rand(range)
-            @r = @game_duration % @num if @game_duration > 1 # fire once within num seconds
+            @r = @game_duration % @num if @game_duration > 1 # fire once within num seconds, but not right at the start
         end
         if @r == 0 && @cannon_fired == false
             @cannon_active = true
@@ -81,7 +81,7 @@ class EnemyTank < Tank
     def update
         move
         @cannon.update
-        cannon_timer(1..5)
+        cannon_timer(4..8)
         sense_collide(@player)
         sense_teammate
         sense_brick
