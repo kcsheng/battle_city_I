@@ -81,7 +81,7 @@ class EnemyTank < Tank
     def update
         move
         @cannon.update
-        cannon_timer(4..8)
+        cannon_timer(2..6)
         sense_collide(@player)
         sense_teammate
         sense_brick

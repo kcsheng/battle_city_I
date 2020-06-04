@@ -1,5 +1,5 @@
 class Player < Tank 
-    attr_reader(:x, :y, :head_west, :head_east, :head_north, :head_south, :time_hit, :bricks, :win)
+    attr_reader(:x, :y, :head_west, :head_east, :head_north, :head_south, :time_hit, :bricks, :win, :lives)
     def initialize(window)
         @window = window
         # tank size (consistently square 56px)
@@ -17,12 +17,17 @@ class Player < Tank
         @enemyteam = EnemyTeam.new(self)
         @enemytanks = @enemyteam.enemy_team
         @explosion = Gosu::Image.load_tiles("../media/tank_explode.png", 72, 72)
-        @alive = true
         @fort = Fort.new
         @bombed_tank = 0
         @win = false
         @hit_brick = Gosu::Sample.new("../media/distant_explosion.mp3")
         @hit_tank = Gosu::Sample.new("../media/tank_explosion.mp3")
+        @lives = 3
+        @exploded = false
+        @time_hit = nil
+        @loc_x = 0
+        @loc_y = 0
+        @text_display = Gosu::Font.new(@window,"FUTURA", 50)
     end
 
     def bomb(enemytanks)        
@@ -44,10 +49,13 @@ class Player < Tank
     def bomb_by(enemytanks)
         enemytanks.each do |tank|
             if Gosu.distance(tank.cannon.x + 7.5, tank.cannon.y + 7.5, @x + 28, @y + 28) < 28
-                @alive = false
-                @window.game_running = false
                 @cannon.neutralised = true
+                tank.cannon.neutralised = true
                 @hit_tank.play
+                @exploded = true
+                @time_hit = Time.now
+                @loc_x = @x
+                @loc_y = @y                              
             end
         end
     end
@@ -56,7 +64,7 @@ class Player < Tank
         unless @enemytanks.empty?
             nearest_tank = nearest_obj(@enemytanks)
         end
-            sense_collide(nearest_tank)
+        sense_collide(nearest_tank)
     end
 
     def sense_brick
@@ -106,11 +114,14 @@ class Player < Tank
         end
     end
 
-    def win_state
+    def win_lose_state
         if @enemytanks.length == 0 && @bombed_tank == 50
             @win = true
             @window.game_running = false
         end
+        if @lives == 0 
+            @window.game_running = false
+        end 
     end
 
     def update
@@ -130,21 +141,28 @@ class Player < Tank
         @wall.update
         bomb_wall
         bomb_fort
-        win_state
+        win_lose_state
     end     
     
-    def draw
-        if @alive
+    def draw        
+        if @exploded
+            img = @explosion[Gosu::milliseconds / 100 % @explosion.size]            
+            img.draw(@loc_x - 8, @loc_y - 8, 2)
+            if @lives > 0 && Time.now - @time_hit > 0.5
+                @exploded = false
+                @lives -= 1
+                @x = 260
+                @y = 644
+            end            
+        elsif @lives > 0 && @exploded == false
             case true
+            when @head_north; @tank_north.draw(@x, @y, 2)
             when @head_west; @tank_west.draw(@x, @y, 2)
             when @head_east; @tank_east.draw(@x, @y, 2)
-            when @head_north; @tank_north.draw(@x, @y, 2)
             when @head_south; @tank_south.draw(@x, @y, 2)
             end
-        else
-            img = @explosion[Gosu::milliseconds / 100 % @explosion.size]
-            img.draw(@x - 4, @y - 8, 2)        
         end
+        @text_display.draw_text("LIVES: #{@lives}", 10, 670, 3, 0.8, 0.8, Gosu::Color::GREEN)
         @cannon.draw
         @enemyteam.draw
         @wall.draw

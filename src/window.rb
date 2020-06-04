@@ -39,12 +39,12 @@ class GameWindow < Gosu::Window
     end
 
     def draw
-        @player.draw
+        @player.draw       
         unless @game_running
             if @player.win
-                @text_display.draw_text("You Won!", 300, 305, 3, 1, 1, Gosu::Color::CYAN)
+                @text_display.draw_text("YOU WON!", 300, 305, 3, 1, 1, Gosu::Color::CYAN)
             else
-                @text_display.draw_text("Game Over", 296, 305, 3, 1, 1, Gosu::Color::CYAN)
+                @text_display.draw_text("GAME OVER", 296, 305, 3, 1, 1, Gosu::Color::CYAN)
             end
         end 
     end    
