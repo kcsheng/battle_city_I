@@ -30,7 +30,7 @@ class EnemyTank < Tank
                 @first_move = false
             else                   
                 @duration = rand * 1.5
-                @option = [1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3].sample 
+                @option = [1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3].sample 
             end             
         end     
         if Time.now - @time_stamp <= @duration           
