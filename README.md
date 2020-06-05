@@ -19,7 +19,7 @@ Run the game in src.
 When the game starts, the player has 3 lives to fight against incoming enemy tanks. To win the game, the player must protect the "element" inside the castle so that it remains untouched. If it is destroyed, the player loses the game. The player must destroy all 50 enemy tanks. 
 
 #### Keyboard control
-Use arrow keys to navigate the tank. Press the space bar to launch a cannon.
+Use arrow keys to navigate the tank. Press the space bar to launch a cannon. Press ESC to terminate the game and close the game window.
 
 #### Acknowledgement
 Explosion sounds: [Zapsplat](https://www.zapsplat.com/sound-effect-category/explosions/)
