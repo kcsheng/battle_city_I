@@ -14,6 +14,7 @@ Run the game in src.
 ```
 > Ruby game.rb
 ```
+![alt text](media/screenshot.png)
 ***
 #### Game instructions
 When the game starts, the player has 3 lives to fight against incoming enemy tanks. To win the game, the player must protect the "element" inside the castle so that it remains untouched. If it is destroyed, the player loses the game. The player must destroy all 50 enemy tanks. 
