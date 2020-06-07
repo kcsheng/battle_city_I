@@ -126,11 +126,11 @@ class Player < Tank
 
     def update
         case true # tank unable to move diagonally.
-        when @window.button_down?(Gosu::Button::KbLeft); move_west
-        when @window.button_down?(Gosu::Button::KbRight); move_east
-        when @window.button_down?(Gosu::Button::KbUp); move_north
-        when @window.button_down?(Gosu::Button::KbDown); move_south
-        when @window.button_down?(Gosu::Button::KbSpace); @cannon.fire
+        when @window.button_down?(Gosu::KB_LEFT); move_west
+        when @window.button_down?(Gosu::KB_RIGHT); move_east
+        when @window.button_down?(Gosu::KB_UP); move_north
+        when @window.button_down?(Gosu::KB_DOWN); move_south
+        when @window.button_down?(Gosu::KB_SPACE); @cannon.fire
         end
         @cannon.update
         @enemyteam.update
