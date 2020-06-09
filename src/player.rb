@@ -97,18 +97,20 @@ class Player < Tank
         end        
     end
 
+    def bomb_fort_events
+        @fort.living = false
+        @cannon.neutralised = true
+        @window.game_running = false
+    end
+
     def bomb_fort
         if Gosu.distance(@cannon.x + 7.5, @cannon.y + 7.5, @fort.x + 20, @fort.y + 20) < 30
-            @fort.living = false
-            @cannon.neutralised = true
-            @window.game_running = false
+            bomb_fort_events
         end
         @wall_units.each do |unit|
             @enemytanks.each do |tank|
                 if Gosu.distance(tank.cannon.x + 7.5, tank.cannon.y + 7.5, @fort.x + 20, @fort.y + 20) < 30
-                    @fort.living = false
-                    @cannon.neutralised = true
-                    @window.game_running = false
+                    bomb_fort_events
                 end
             end
         end
