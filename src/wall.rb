@@ -14,7 +14,6 @@ class Wall
         (0..63).each { |n| @wall_units[n][0].x = @wall_units.assoc(@wall_units[n][0])[1] } # write all brick instance :x 
         (0..63).each { |n| @wall_units[n][0].y = @wall_units.assoc(@wall_units[n][0])[2] } # write all brick instance :y
         @struck = false
-        @time_hit = nil
         @brick_explosion = Gosu::Image.load_tiles("../media/brick_explode.png", 50, 50)
         @brick_exploded = false
         @time_struck = nil
