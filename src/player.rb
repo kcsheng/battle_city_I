@@ -74,16 +74,6 @@ class Player < Tank
         sense_collide(nearest_brick)
     end
 
-    def events_after(cannon, unit)
-        @wall.brick_exploded = true
-        @wall.time_struck = Time.now
-        @wall.struck_x = unit[1]
-        @wall.struck_y = unit[2]
-        unit[0].exist = false
-        cannon.neutralised = true
-        @hit_brick.play
-    end
-
     def bomb_wall
         @wall_units.each do |unit|             
             if Gosu.distance(@cannon.x + 7.5, @cannon.y + 7.5, unit[1] + 20, unit[2] + 20) < 23
@@ -95,12 +85,6 @@ class Player < Tank
                 end
             end
         end        
-    end
-
-    def bomb_fort_events
-        @fort.living = false
-        @cannon.neutralised = true
-        @window.game_running = false
     end
 
     def bomb_fort
@@ -171,4 +155,23 @@ class Player < Tank
         @wall.draw
         @fort.draw
     end
+
+    private
+
+    def events_after(cannon, unit)
+      @wall.brick_exploded = true
+      @wall.time_struck = Time.now
+      @wall.struck_x = unit[1]
+      @wall.struck_y = unit[2]
+      unit[0].exist = false
+      cannon.neutralised = true
+      @hit_brick.play
+    end
+
+    def bomb_fort_events
+      @fort.living = false
+      @cannon.neutralised = true
+      @window.game_running = false
+    end
+
 end
